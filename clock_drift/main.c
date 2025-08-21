@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <immintrin.h>
+#include "../lib.h"
 
 int main() {
 	unsigned long hundredMegs = 37500000; /* Actually 300MB now */
@@ -12,7 +13,6 @@ int main() {
 	double duration;
 	double whatever;
 	struct timeval stop, start;
-	FILE *output_file;
 
 	gettimeofday(&start, NULL);
 	for (i = 0; i < hundredMegs; i++) {
@@ -32,10 +32,7 @@ int main() {
 		j += 1;
 	}
 
-	/* Write to file */
-	output_file = fopen("output.raw", "wb");
-	fwrite(output, hundredMegs * 4, 1, output_file);
-	fclose(output_file);
+	write_data_to_file("output.raw", output, hundredMegs * 4);
 
 	free(array);
 	free(output);
